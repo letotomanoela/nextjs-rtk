@@ -1,22 +1,14 @@
 "use client";
 
 import { Post } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useGetPostsQuery } from "@/store/apiSlice";
 
 const PostPage = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-
-  useEffect(() => {
-    const getPosts = async () => {
-      const res = await fetch("/api/post");
-      const data = await res.json();
-      setPosts(data.post);
-    };
-    getPosts();
-  }, []);
+  const { data: posts, isLoading } = useGetPostsQuery({});
+  if (isLoading) return <div>Loading...</div>;
   return (
     <div>
-      {posts?.map((item) => (
+      {posts.post?.map((item: Post) => (
         <div key={item.id}>{item.title}</div>
       ))}
     </div>
