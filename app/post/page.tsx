@@ -1,22 +1,20 @@
 "use client";
 
 import { Post } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getPostsActions } from "../action";
 
 const PostPage = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const { data: posts, isLoading } = useQuery({
+    queryKey: ["posts"],
+    queryFn: getPostsActions,
+  });
 
-  useEffect(() => {
-    const getPosts = async () => {
-      const res = await fetch("/api/post");
-      const data = await res.json();
-      setPosts(data.post);
-    };
-    getPosts();
-  }, []);
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <div>
-      {posts?.map((item) => (
+      {posts?.map((item: Post) => (
         <div key={item.id}>{item.title}</div>
       ))}
     </div>

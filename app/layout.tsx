@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { TanstackProvider } from "@/components/TanstackProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,8 +23,10 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
           <main>
-            <SidebarTrigger />
-            {children}
+            <TanstackProvider>
+              <SidebarTrigger />
+              {children}
+            </TanstackProvider>
           </main>
         </SidebarProvider>
       </body>
