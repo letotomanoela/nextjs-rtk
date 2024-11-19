@@ -11,10 +11,25 @@ const apiSlice = createApi({
       query: () => ({
         url: "/api/post",
       }),
+      providesTags: ["Posts"],
+    }),
+    getAuthors: builder.query({
+      query: () => ({
+        url: "/api/user",
+      }),
+    }),
+    createPost: builder.mutation({
+      query: (body) => ({
+        url: "/api/post",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Posts"],
     }),
   }),
 });
 
-export const { useGetPostsQuery } = apiSlice;
+export const { useGetPostsQuery, useGetAuthorsQuery, useCreatePostMutation } =
+  apiSlice;
 
 export default apiSlice;
